@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>My Web Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <a href="#default" class="logo">DİNERO</a>
+        <div class="header-right">
+            <a href="#home">Ana Sayfa</a>
+            <a href="#about">Sepet(0)</a>
+            <a class="active" href="#contact">Çıkış Yap</a>
+        </div>
+    </div>
+
+    <main>
+        <div class="title-wrapper">
+            <p id="title">Benzer Ürünler</p>
+        </div>
+        <div class="slide-container">
+            <img src="https://freepngimg.com/thumb/previous_button/25405-6-previous-button-picture.png" alt="left" id="slide-left" class="arrow">
+            
+            <section class="container" id="slider">
+                <!-- jsden gelen veriler -->
+            </section>
+
+            <img src="https://freepngimg.com/thumb/previous_button/25405-6-previous-button-picture.png" alt="right" id="slide-right" class="arrow" style="transform: rotate(180deg)">
+        </div>
+    </main>
+    
+    <footer>
+        <h1>Dinero Case</h1>
+        <div id="footer">
+            <p>Emirhan Akca</p>
+            <p>...</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
