@@ -29,7 +29,7 @@ img {
 /* Header */
 .header {
   overflow: hidden;
-  background-color: #f1f1f1;
+  background-color: black;
   padding: 20px 10px;
   display: flex;
   flex-wrap: wrap;
@@ -38,21 +38,23 @@ img {
 }
 
 .header a {
-  color: black;
+  color: white;
   text-align: center;
   padding: 12px;
   text-decoration: none;
   font-size: 18px;
   border-radius: 4px;
+  background-color: black;
 }
 
-.header a.logo {
-  font-size: 25px;
+.header img {
+  width: 200px;
+  height: 70px;
   font-weight: bold;
 }
 
 .header a.active {
-  background-color: dodgerblue;
+  background-color: rgb(2, 15, 197);
   color: white;
 }
 
@@ -146,6 +148,7 @@ section::-webkit-scrollbar-thumb {
   font-size: 1rem;
   font-weight: 100;
   margin: 5px 0;
+  height: 54px ;
 }
 
 .product-details p {
@@ -157,16 +160,53 @@ section::-webkit-scrollbar-thumb {
 
 /* Footer Alanı */
 footer {
-  background-color: #193db0;
-  width: 100%;
-  color: white;
-  padding: 1rem 0 5rem 0;
-  text-align: center;
-  margin-top: 10%;
-}
-
-#footer {
-  max-width: 500px;
   margin: 0 auto;
   margin-top: 2%;
+} 
+
+ footer img{
+  width: 100%;
+ }
+
+.thumbnail {
+  position: relative; /* ÖNEMLİ: içinde mutlak konumlandırma yapılabilmesi için */
+}
+
+/* FAVORİYE ALMA İŞLEMLERİ */
+.favourite {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+  color: #fff;
+  transition: color 200ms;
+  z-index: 10;
+  border: 1px solid #bebebe;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.favourite svg{
+  margin-top: 0.1rem ;
+}
+
+.favourite svg path {
+  transition: fill 0.2s, stroke 0.2s;
+}
+
+.favourite.active svg path {
+  fill: #193db0;     
+  stroke: #193db0;   
+}
+
+@keyframes fav {
+  70% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
