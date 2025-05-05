@@ -4,6 +4,9 @@ const productUrl =
 const products = [];
 const favourites = [];
 
+const STORAGE_PRODUCTS_KEY = "storageProduct";
+const STORAGE_FAVS_KEY = "storageFavs";
+
 class Product {
   constructor(id, name, url, img, price) {
     this.id = id;
@@ -16,18 +19,19 @@ class Product {
 // apiye istek
 const getProducts = async () => {
   const response = await fetch(productUrl);
-  const jsonData = await response.json();
-  console.log("Apiden veri çekildi.");
-
-  return jsonData;
+  if (!response.ok) {
+    console.log("istek sırasında bir hata oluştu." + response.status);
+  } else {
+    console.log("Veri başarıyla çekildi.");
+    const jsonData = await response.json();
+    return jsonData;
+  }
 };
 
-// Önce localstorage kontrolu ve sonra API'den ürünleri çekip diziye aktarıyoz
-
-var storageProducts = localStorage.getItem("storageProduct");
-
-// storage boşşa istek at ve veriyi çekip diziye aktar.
 document.addEventListener("DOMContentLoaded", () => {
+  // Önce localstorage kontrolu ve sonra API'den ürünleri çekip diziye aktarıyoz
+  // storage boşşa istek at ve veriyi çekip diziye aktar.
+  let storageProducts = localStorage.getItem(STORAGE_PRODUCTS_KEY);
   if (storageProducts === null) {
     getProducts().then((data) => {
       data.forEach((item) => {
@@ -36,8 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       });
       // Listedeki veriyi storageye ekle
-      localStorage.setItem("storageProduct", JSON.stringify(products));
-      // html e giydir
+      localStorage.setItem(STORAGE_PRODUCTS_KEY, JSON.stringify(products));
       renderProducts();
     });
   } else {
@@ -52,29 +55,29 @@ document.addEventListener("DOMContentLoaded", () => {
     renderProducts();
   }
 });
- //favouritesi localden okuyup tekrar favourite dizine atamamız lazım .
- var storageFavs = localStorage.getItem("storageFavs");
- var jsonFavs = JSON.parse(storageFavs);
 
- if(jsonFavs !== null){
-   jsonFavs.forEach((item) => {
-     favourites.push(item);
-   });
- }
+//favouritesi storageden okuyup tekrar favourite dizine atamamız lazım .
+function getFavouritesFromStorage() {
+  let storageFavs = JSON.parse(localStorage.getItem(STORAGE_FAVS_KEY));
+  if (storageFavs !== null) {
+    storageFavs.forEach((item) => {
+      favourites.push(item);
+    });
+  }
+}
 
 // diziyi dönerek html kodlarını çoğaltıyoruz
 const renderProducts = () => {
   const slider = document.getElementById("slider");
   slider.innerHTML = ""; // önceki içerikleri temizle chat gpt önerisi
 
-  console.log(favourites);  
+  console.log(favourites); // dolu geliyor
 
   products.forEach((product) => {
-    //favori listem boş değil
     // string ile cast ettik yoksa değerleri karşılaştıramıyormuş.
     let favouriteState = favourites.includes(String(product.id));
     let favouriteClassName = favouriteState ? "favourite active" : "favourite";
-    
+
     const productHTML = `
       <div class="thumbnail">
         <img src="${product.img}" alt="${product.name}" onclick="openProduct('${product.url}')">
@@ -98,10 +101,31 @@ const renderProducts = () => {
   });
 };
 
+// Ürüne tıklayınca yan sekmede açılma olayı
 const openProduct = (url) => {
   window.open(url, "_blank");
   console.log("openProduct fonksiyonu çalıştı.");
 };
+
+// Ürünü favoriye alma ve storageye ekleme
+function toggleFavourite(element, productId) {
+  const index = favourites.indexOf(productId);
+  if (index === -1) {
+    favourites.push(productId);
+  } else {
+    favourites.splice(index, 1);
+  }
+  localStorage.setItem(STORAGE_FAVS_KEY, JSON.stringify(favourites));
+  renderProducts();
+}
+
+// Belleği temizleme - Kolay test etmek için yazdım
+document.getElementById("clearStorage").addEventListener("click", ClearStorage);
+function ClearStorage() {
+  localStorage.clear();
+  favourites.splice(0, favourites.length);
+  renderProducts();
+}
 
 // Slider için kaydırma operasyonları
 let thumbnails = document.getElementsByClassName("thumbnail");
@@ -116,30 +140,3 @@ buttonLeft.addEventListener("click", () => {
 buttonRight.addEventListener("click", () => {
   slider.scrollLeft += 220;
 });
-
-const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
-
-var favouriteButton = document.getElementById("favourite");
-
-function toggleFavourite(element, productId) {
-  if (!favourites.includes(productId)) {
-    favourites.push(productId);
-    localStorage.setItem("storageFavs", JSON.stringify(favourites));
-   // element.classList.toggle("active");
-    console.log("Ürün favorilere eklendi. Id = " + productId);
-    renderProducts();
-    
-  } else {
-    let index = favourites.findIndex((id) => id === productId);
-    favourites.splice(index, 1);
-    localStorage.setItem("storageFavs", JSON.stringify(favourites));
-   // element.classList.toggle("active");
-    console.log("Ürün favorilerden çıkarıldı. Id = " + productId);
-    renderProducts();
-  }
-}
-
-function ClearStorage() {
-  localStorage.clear();
-}
-document.getElementById("clearStorage").addEventListener("click", ClearStorage);
