@@ -57,19 +57,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //favouritesi storageden okuyup tekrar favourite dizine atamamız lazım .
-function getFavouritesFromStorage() {
-  let storageFavs = JSON.parse(localStorage.getItem(STORAGE_FAVS_KEY));
-  if (storageFavs !== null) {
-    storageFavs.forEach((item) => {
-      favourites.push(item);
-    });
-  }
+let storageFavs = JSON.parse(localStorage.getItem(STORAGE_FAVS_KEY));
+if (storageFavs !== null) {
+  storageFavs.forEach((item) => {
+    favourites.push(item);
+  });
 }
 
 // diziyi dönerek html kodlarını çoğaltıyoruz
 const renderProducts = () => {
   const slider = document.getElementById("slider");
-  slider.innerHTML = ""; // önceki içerikleri temizle chat gpt önerisi
+  slider.innerHTML = ""; // önceki içerikleri temizle
 
   console.log(favourites); // dolu geliyor
 
@@ -126,7 +124,6 @@ function ClearStorage() {
   favourites.splice(0, favourites.length);
   renderProducts();
 }
-
 // Slider için kaydırma operasyonları
 let thumbnails = document.getElementsByClassName("thumbnail");
 let slider = document.getElementById("slider");

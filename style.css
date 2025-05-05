@@ -13,7 +13,7 @@ img {
   max-width: 100%;
 }
 
-/* Başlık alanı */
+
 .title-wrapper {
   padding: 0 5%;
   margin-bottom: 1rem;
@@ -208,5 +208,73 @@ footer {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  #title {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .arrow {
+    width: 1.5rem;
+    height: auto;
+  }
+
+  .thumbnail {
+    width: 160px;
+  }
+
+  .thumbnail img {
+    height: 200px;
+  }
+
+  .product-details h2 {
+    font-size: 0.9rem;
+    height: auto;
+  }
+
+  .product-details p {
+    font-size: 1rem;
+  }
+
+  .slide-container {
+    padding: 0 2%;
+    gap: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .thumbnail {
+    width: 140px;
+  }
+
+  .thumbnail img {
+    height: 180px;
+  }
+
+  .product-details h2 {
+    min-height: 4rem;
+    font-size: 0.85rem;
+  }
+
+  .product-details p {
+    font-size: 0.95rem;
+  }
+
+  .header {
+    padding: 10px;
+  }
+
+  .header img {
+    width: 150px;
+    height: auto;
+  }
+
+  .header a {
+    font-size: 16px;
+    padding: 8px;
   }
 }
